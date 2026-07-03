@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Journal — Vertex Media HQ</title>
+<meta name="description" content="Every review, buying guide, and comparison published by Vertex Media HQ — organised, searchable, and updated continuously.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    --bg-dark:#0c0c0e;
+    --bg-dark-elevated:#141418;
+    --bg-dark-card:#1a1a1f;
+    --bg-dark-hover:#22222a;
+    --line-dark:rgba(255,255,255,0.06);
+    --text-dark:#f0ede8;
+    --text-dark-dim:#9a9488;
+    --text-dark-muted:#6b6558;
+    --bg-light:#faf7f0;
+    --bg-light-elevated:#f2ede2;
+    --bg-light-card:#ffffff;
+    --bg-light-hover:#f5f0e6;
+    --line-light:rgba(30,26,20,0.10);
+    --text-light:#1a1814;
+    --text-light-dim:#5c5648;
+    --text-light-muted:#8a8272;
+    --gold:#c9974f;
+    --gold-dim:#a97e3f;
+    --gold-bright:#d4a853;
+    --gold-glow:rgba(201,151,79,0.15);
+    --gold-glow-strong:rgba(201,151,79,0.25);
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', -apple-system, sans-serif;
+    --mono:'JetBrains Mono', monospace;
+    --ease-out:cubic-bezier(0.16,1,0.3,1);
+    --ease-smooth:cubic-bezier(0.4,0,0.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg-light);color:var(--text-light);font-family:var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6;}
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+  ::selection{background:var(--gold);color:#0c0c0e;}
+  .noise{position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;mix-blend-mode:multiply;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  /* preloader (dark, same as index) */
+  #preloader{position:fixed;inset:0;z-index:100000;background:var(--bg-dark);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s var(--ease-out), visibility .8s var(--ease-out);}
+  #preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .pre-mark{width:56px;height:56px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;transform:rotate(45deg);margin-bottom:36px;animation:preSpin 2s var(--ease-smooth) infinite;}
+  .pre-mark span{transform:rotate(-45deg);font-family:var(--sans);font-weight:800;color:var(--gold);font-size:1.2rem;letter-spacing:1px;}
+  @keyframes preSpin{0%,100%{transform:rotate(45deg) scale(1);}50%{transform:rotate(225deg) scale(1.05);}}
+  .pre-word{font-family:var(--serif);font-size:1.15rem;letter-spacing:6px;text-transform:uppercase;color:var(--text-dark-dim);margin-bottom:28px;font-weight:500;}
+  .pre-bar-wrap{width:180px;height:1px;background:var(--line-dark);position:relative;overflow:hidden;}
+  .pre-bar-wrap::after{content:'';position:absolute;top:0;left:0;height:100%;width:var(--pct,0%);background:var(--gold);transition:width .3s var(--ease-smooth);box-shadow:0 0 12px var(--gold-glow);}
+  .pre-pct{margin-top:18px;font-size:.65rem;letter-spacing:3px;color:var(--text-dark-muted);font-variant-numeric:tabular-nums;font-family:var(--mono);}
+
+  /* header (dark, identical to index) */
+  header{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 5vw;background:transparent;border-bottom:1px solid transparent;transition:all .5s var(--ease-smooth);}
+  header.scrolled{background:rgba(12,12,14,0.92);backdrop-filter:blur(20px) saturate(1.2);-webkit-backdrop-filter:blur(20px) saturate(1.2);border-bottom:1px solid var(--line-dark);padding:14px 5vw;}
+  header.on-light{background:rgba(250,247,240,0.88);border-bottom:1px solid var(--line-light);}
+  header.on-light .logo .full{color:var(--text-light);}
+  header.on-light nav.main-nav a:not(.cta-nav){color:var(--text-light-dim);}
+  header.on-light nav.main-nav a:not(.cta-nav):hover{color:var(--text-light);}
+  header.on-light .burger span{background:var(--text-light);}
+  .logo{display:flex;align-items:center;gap:12px;font-family:var(--serif);font-size:1.4rem;letter-spacing:.5px;font-weight:600;}
+  .logo .mark{width:32px;height:32px;border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;transform:rotate(45deg);color:var(--gold);font-family:var(--sans);font-weight:800;font-size:.8rem;}
+  .logo .mark span{transform:rotate(-45deg);}
+  .logo .full{color:var(--text-dark);transition:color .4s var(--ease-smooth);}
+  .logo .full em{font-style:italic;color:var(--gold);font-weight:500;}
+  nav.main-nav{display:flex;align-items:center;gap:40px;}
+  nav.main-nav a{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dark-dim);position:relative;padding:4px 0;transition:color .4s var(--ease-smooth);font-weight:500;}
+  nav.main-nav a::after{content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--gold);transition:width .4s var(--ease-out);}
+  nav.main-nav a:hover{color:var(--text-dark);}
+  nav.main-nav a:hover::after{width:100%;}
+  nav.main-nav a.active::after{width:100%;}
+  nav.main-nav a.cta-nav{color:var(--bg-dark);background:var(--gold);padding:11px 26px;letter-spacing:1.6px;font-weight:700;transition:all .35s var(--ease-smooth);border:1px solid var(--gold);}
+  nav.main-nav a.cta-nav::after{display:none;}
+  nav.main-nav a.cta-nav:hover{background:transparent;color:var(--gold);transform:translateY(-1px);box-shadow:0 0 24px var(--gold-glow);}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;}
+  .burger span{width:26px;height:1px;background:var(--text-dark);transition:.3s;}
+
+  /* page header (dark hero-style, shorter) */
+  .page-header{
+    min-height:64vh;display:flex;flex-direction:column;justify-content:center;
+    position:relative;padding:0 5vw;overflow:hidden;background:var(--bg-dark);color:var(--text-dark);
+  }
+  .page-header-bg{position:absolute;inset:0;z-index:0;}
+  .page-header-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(0.32) saturate(0.8);transform:scale(1.08);animation:heroZoom 22s ease-in-out infinite alternate;}
+  @keyframes heroZoom{from{transform:scale(1.08);}to{transform:scale(1.18);}}
+  .page-header-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(12,12,14,0.6) 0%, rgba(12,12,14,0.35) 40%, rgba(12,12,14,0.92) 100%);}
+  .page-header > *:not(.page-header-bg){position:relative;z-index:1;}
+  .page-header .eyebrow{display:flex;align-items:center;gap:16px;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;font-family:var(--mono);font-weight:500;}
+  .page-header .eyebrow .line{width:40px;height:1px;background:var(--gold);opacity:.6;}
+  .page-header h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.8rem,6vw,5.2rem);line-height:1.05;letter-spacing:-1px;max-width:16ch;}
+  .page-header h1 em{font-style:italic;color:var(--gold-bright);background:linear-gradient(135deg,var(--gold-bright),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .page-header p{margin-top:28px;max-width:52ch;font-size:1.05rem;line-height:1.85;color:var(--text-dark-dim);font-weight:300;}
+  .ph-stats{margin-top:48px;display:flex;gap:52px;flex-wrap:wrap;}
+  .ph-stats .stat .num{font-family:var(--serif);font-size:2rem;color:var(--gold-bright);font-weight:600;}
+  .ph-stats .stat .lbl{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dark-muted);margin-top:4px;font-family:var(--mono);}
+
+  /* filter bar */
+  .filter-bar{
+    position:sticky;top:0;z-index:500;background:rgba(250,247,240,0.92);backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line-light);padding:22px 5vw;
+    display:flex;gap:14px;flex-wrap:wrap;align-items:center;
+  }
+  .filter-pill{
+    font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;font-family:var(--mono);
+    padding:9px 18px;border:1px solid var(--line-light);color:var(--text-light-dim);
+    cursor:pointer;transition:all .3s var(--ease-smooth);background:transparent;
+    white-space:nowrap;
+  }
+  .filter-pill:hover{border-color:var(--gold-dim);color:var(--text-light);}
+  .filter-pill.active{background:var(--gold-dim);border-color:var(--gold-dim);color:#fffaf0;}
+  .filter-count{margin-left:auto;font-size:.72rem;color:var(--text-light-muted);font-family:var(--mono);letter-spacing:1px;}
+
+  /* blog grid section */
+  .journal{background:var(--bg-light);padding:80px 5vw 160px;}
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
+  .post-card{
+    background:var(--bg-light-card);border:1px solid var(--line-light);
+    display:flex;flex-direction:column;overflow:hidden;
+    transition:all .5s var(--ease-smooth);opacity:0;transform:translateY(24px);
+  }
+  .post-card.in{opacity:1;transform:translateY(0);}
+  .post-card:hover{border-color:rgba(201,151,79,.35);transform:translateY(-6px);box-shadow:0 24px 48px -20px rgba(30,26,20,0.18);}
+  .post-thumb{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--bg-light-elevated);}
+  .post-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .7s var(--ease-smooth);}
+  .post-card:hover .post-thumb img{transform:scale(1.08);}
+  .post-cat{
+    position:absolute;top:16px;left:16px;background:rgba(12,12,14,0.72);color:var(--gold-bright);
+    font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;font-family:var(--mono);
+  }
+  .post-body{padding:28px 26px 30px;display:flex;flex-direction:column;flex:1;}
+  .post-date{font-size:.66rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light-muted);font-family:var(--mono);margin-bottom:12px;}
+  .post-title{font-family:var(--serif);font-size:1.35rem;font-weight:600;line-height:1.3;margin-bottom:12px;letter-spacing:-.2px;color:var(--text-light);}
+  .post-excerpt{font-size:.88rem;color:var(--text-light-dim);line-height:1.7;font-weight:300;margin-bottom:22px;flex:1;}
+  .post-link{
+    display:flex;align-items:center;gap:10px;font-size:.72rem;letter-spacing:1.8px;text-transform:uppercase;
+    color:var(--gold-dim);font-weight:600;margin-top:auto;
+  }
+  .post-link i{transition:transform .3s var(--ease-smooth);font-size:.7rem;}
+  .post-card:hover .post-link i{transform:translateX(6px);}
+
+  /* states */
+  .state-box{grid-column:1/-1;text-align:center;padding:100px 20px;}
+  .state-box i{font-size:2.2rem;color:var(--gold-dim);opacity:.5;margin-bottom:20px;display:block;}
+  .state-box h3{font-family:var(--serif);font-size:1.6rem;margin-bottom:12px;color:var(--text-light);}
+  .state-box p{color:var(--text-light-dim);font-weight:300;max-width:44ch;margin:0 auto;font-size:.95rem;line-height:1.7;}
+  .skeleton{background:var(--bg-light-card);border:1px solid var(--line-light);overflow:hidden;}
+  .skeleton .sk-thumb{aspect-ratio:4/3;background:linear-gradient(100deg,var(--bg-light-elevated) 30%,var(--bg-light-hover) 50%,var(--bg-light-elevated) 70%);background-size:200% 100%;animation:shimmer 1.6s infinite;}
+  .skeleton .sk-body{padding:28px 26px;}
+  .skeleton .sk-line{height:10px;background:var(--bg-light-elevated);margin-bottom:12px;width:100%;}
+  .skeleton .sk-line.short{width:60%;}
+  @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+  /* footer (dark, identical to index) */
+  footer{padding:100px 5vw 50px;background:var(--bg-dark);color:var(--text-dark);position:relative;}
+  footer::before{content:'';position:absolute;top:0;left:5vw;right:5vw;height:1px;background:var(--line-dark);}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:70px;padding-bottom:70px;border-bottom:1px solid var(--line-dark);}
+  .foot-brand .logo{margin-bottom:24px;}
+  .foot-brand .logo .full{color:var(--text-dark);}
+  .foot-brand p{color:var(--text-dark-dim);font-size:.95rem;line-height:1.85;max-width:36ch;font-weight:300;}
+  .foot-social{display:flex;gap:14px;margin-top:30px;}
+  .foot-social a{width:42px;height:42px;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;color:var(--text-dark-dim);transition:all .4s var(--ease-smooth);border-radius:50%;}
+  .foot-social a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px);background:rgba(201,151,79,0.05);}
+  .foot-col h5{font-size:.68rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;font-family:var(--mono);font-weight:500;}
+  .foot-col a{display:block;color:var(--text-dark-dim);font-size:.92rem;margin-bottom:16px;font-weight:300;transition:all .3s var(--ease-smooth);}
+  .foot-col a:hover{color:var(--text-dark);padding-left:8px;}
+  .foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:40px;flex-wrap:wrap;gap:18px;}
+  .foot-bottom p{font-size:.75rem;color:var(--text-dark-muted);font-weight:300;font-family:var(--mono);}
+  .foot-bottom .disclosure{font-size:.72rem;color:var(--text-dark-muted);max-width:60ch;line-height:1.7;margin-top:12px;font-weight:300;}
+
+  @media(max-width:980px){
+    .blog-grid{grid-template-columns:repeat(2,1fr);}
+    .foot-top{grid-template-columns:1fr 1fr;row-gap:50px;}
+  }
+  @media(max-width:720px){
+    nav.main-nav{position:fixed;top:0;right:0;height:100vh;width:78vw;max-width:340px;background:rgba(12,12,14,0.98);backdrop-filter:blur(24px);flex-direction:column;align-items:flex-start;justify-content:center;gap:32px;padding:60px 40px;transform:translateX(100%);transition:transform .5s var(--ease-out);border-left:1px solid var(--line-dark);}
+    nav.main-nav.open{transform:translateX(0);}
+    nav.main-nav a{font-size:.95rem;color:var(--text-dark)!important;}
+    .burger{display:flex;}
+    .blog-grid{grid-template-columns:1fr;}
+    .filter-bar{padding:16px 5vw;}
+    .foot-top{grid-template-columns:1fr;}
+  }
+</style>
+<base target="_self">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="pre-mark"><span>V</span></div>
+  <div class="pre-word">Vertex Media HQ</div>
+  <div class="pre-bar-wrap" id="preBar"></div>
+  <div class="pre-pct" id="prePct">0%</div>
+</div>
+
+<div class="noise"></div>
+
+<header id="siteHeader">
+  <a href="index.html" class="logo">
+    <span class="mark"><span>V</span></span>
+    <span class="full">Vertex <em>Media</em> HQ</span>
+  </a>
+
+  <nav class="main-nav" id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="index.html#pillars">About</a>
+    <a href="index.html#categories">Categories</a>
+    <a href="blogger.html" class="cta-nav active">The Journal</a>
+  </nav>
+
+  <div class="burger" id="burger">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<section class="page-header">
+  <div class="page-header-bg">
+    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=1800&q=80" alt="Editorial writing desk">
+  </div>
+  <div class="eyebrow"><span class="line"></span> The Journal</div>
+  <h1>Every guide, <em>in one place.</em></h1>
+  <p>Reviews and buying guides added by our editors — this page updates itself the moment a new one is published.</p>
+  <div class="ph-stats">
+    <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">Guides Published</div></div>
+    <div class="stat"><div class="num" id="statCats">—</div><div class="lbl">Categories</div></div>
+  </div>
+</section>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-pill active" data-filter="all">All</button>
+  <span class="filter-count" id="filterCount"></span>
+</div>
+
+<section class="journal">
+  <div class="blog-grid" id="blogGrid">
+    <div class="skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line"></div><div class="sk-line short"></div></div></div>
+    <div class="skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line"></div><div class="sk-line short"></div></div></div>
+    <div class="skeleton"><div class="sk-thumb"></div><div class="sk-body"><div class="sk-line short"></div><div class="sk-line"></div><div class="sk-line short"></div></div></div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a href="index.html" class="logo">
+        <span class="mark"><span>V</span></span>
+        <span class="full">Vertex <em>Media</em> HQ</span>
+      </a>
+      <p>An independent editorial desk dedicated to careful, unsponsored product research and review.</p>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+        <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Explore</h5>
+      <a href="index.html">Home</a>
+      <a href="blogger.html">The Journal</a>
+      <a href="index.html#categories">Categories</a>
+      <a href="index.html#process">Methodology</a>
+    </div>
+    <div class="foot-col">
+      <h5>Categories</h5>
+      <a href="blogger.html">Home &amp; Living</a>
+      <a href="blogger.html">Tech Essentials</a>
+      <a href="blogger.html">Outdoor &amp; Fitness</a>
+      <a href="blogger.html">Kitchen &amp; Dining</a>
+    </div>
+    <div class="foot-col">
+      <h5>Information</h5>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Affiliate Disclosure</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>&copy; <span id="year"></span> Vertex Media HQ. All rights reserved.</p>
+  </div>
+  <p class="disclosure">As an Amazon Associate, Vertex Media HQ earns from qualifying purchases. Product recommendations are independently researched; commissions do not influence our editorial verdicts.</p>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — points the auto-loader at your GitHub repo + folder.
+   Posts are any .html file placed inside /blogger on the "main"
+   branch. Nothing else needs to change when you add a new post.
+   ============================================================ */
+const REPO_OWNER  = "gtwebstudio101-pixel";
+const REPO_NAME   = "vertex-media-hq";
+const REPO_BRANCH = "main";
+const POSTS_FOLDER = "blogger"; // folder containing post .html files
+const CACHE_KEY = "vmhq_posts_cache_v1";
+const CACHE_TTL_MS = 1000 * 60 * 15; // 15 minutes
+
+(function(){
+  const bar = document.getElementById('preBar');
+  const pct = document.getElementById('prePct');
+  const pre = document.getElementById('preloader');
+  let n = 0;
+  const timer = setInterval(() => {
+    n += Math.random() * 16;
+    if (n >= 100) n = 100;
+    bar.style.setProperty('--pct', n.toFixed(0) + '%');
+    pct.textContent = n.toFixed(0) + '%';
+    if (n >= 100) clearInterval(timer);
+  }, 180);
+  window.addEventListener('load', () => {
+    n = 100;
+    bar.style.setProperty('--pct', '100%');
+    pct.textContent = '100%';
+    setTimeout(() => { pre.classList.add('hidden'); document.body.style.overflow = ''; }, 400);
+  });
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => { pre.classList.add('hidden'); document.body.style.overflow = ''; }, 4500);
+})();
+
+document.getElementById('year').textContent = new Date().getFullYear();
+
+const header = document.getElementById('siteHeader');
+function updateHeaderTheme(){
+  header.classList.toggle('scrolled', window.scrollY > 40);
+  const journalTop = document.querySelector('.filter-bar').getBoundingClientRect().top;
+  header.classList.toggle('on-light', journalTop < 80);
+}
+window.addEventListener('scroll', updateHeaderTheme);
+updateHeaderTheme();
+
+const burger = document.getElementById('burger');
+const mainNav = document.getElementById('mainNav');
+burger.addEventListener('click', () => { mainNav.classList.toggle('open'); burger.classList.toggle('active'); });
+mainNav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mainNav.classList.remove('open')));
+
+/* ---------------- post auto-loader ---------------- */
+const grid = document.getElementById('blogGrid');
+const filterBar = document.getElementById('filterBar');
+const statTotal = document.getElementById('statTotal');
+const statCats = document.getElementById('statCats');
+const filterCount = document.getElementById('filterCount');
+
+const FALLBACK_IMG = "https://images.unsplash.com/photo-1495020689067-958852a7765e?auto=format&fit=crop&w=800&q=80";
+
+function parseMeta(html, filename){
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const title = (doc.querySelector('meta[name="post-title"]')?.content)
+             || doc.querySelector('title')?.textContent?.trim()
+             || doc.querySelector('h1')?.textContent?.trim()
+             || filename.replace(/\.html?$/i,'').replace(/[-_]/g,' ');
+  const desc = doc.querySelector('meta[name="description"]')?.content
+            || doc.querySelector('meta[property="og:description"]')?.content
+            || doc.querySelector('p')?.textContent?.trim()?.slice(0,160)
+            || "Read the full guide for details, comparisons, and our verdict.";
+  const image = doc.querySelector('meta[property="og:image"]')?.content
+             || doc.querySelector('meta[name="post-image"]')?.content
+             || doc.querySelector('img')?.getAttribute('src')
+             || FALLBACK_IMG;
+  const category = doc.querySelector('meta[name="post-category"]')?.content || "General";
+  const dateRaw = doc.querySelector('meta[name="post-date"]')?.content || "";
+  const date = dateRaw ? new Date(dateRaw) : null;
+  return { title, desc, image, category, date, dateRaw };
+}
+
+function formatDate(d){
+  if(!d || isNaN(d)) return "";
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+
+async function fetchJSON(url){
+  const res = await fetch(url, { headers: { "Accept": "application/vnd.github+json" } });
+  if(!res.ok) throw new Error("GitHub API error " + res.status);
+  return res.json();
+}
+
+function readCache(){
+  try{
+    const raw = localStorage.getItem(CACHE_KEY);
+    if(!raw) return null;
+    const parsed = JSON.parse(raw);
+    if(Date.now() - parsed.ts > CACHE_TTL_MS) return null;
+    return parsed.posts;
+  }catch(e){ return null; }
+}
+function writeCache(posts){
+  try{ localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), posts })); }catch(e){}
+}
+
+async function loadPosts(){
+  const cached = readCache();
+  if(cached){ renderPosts(cached); refreshInBackground(); return; }
+  try{
+    const posts = await discoverPosts();
+    writeCache(posts);
+    renderPosts(posts);
+  }catch(err){
+    console.error(err);
+    renderError();
+  }
+}
+
+async function refreshInBackground(){
+  try{
+    const posts = await discoverPosts();
+    writeCache(posts);
+    renderPosts(posts, true);
+  }catch(e){ /* silent - cached view already shown */ }
+}
+
+async function discoverPosts(){
+  const listUrl = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${POSTS_FOLDER}?ref=${REPO_BRANCH}`;
+  const files = await fetchJSON(listUrl);
+  const htmlFiles = files.filter(f => f.type === "file" && /\.html?$/i.test(f.name));
+
+  const posts = await Promise.all(htmlFiles.map(async f => {
+    try{
+      const res = await fetch(f.download_url);
+      const html = await res.text();
+      const meta = parseMeta(html, f.name);
+      return { ...meta, filename: f.name, url: `${POSTS_FOLDER}/${f.name}` };
+    }catch(e){
+      return {
+        title: f.name.replace(/\.html?$/i,'').replace(/[-_]/g,' '),
+        desc: "Read the full guide.",
+        image: FALLBACK_IMG,
+        category: "General",
+        date: null, dateRaw: "",
+        filename: f.name,
+        url: `${POSTS_FOLDER}/${f.name}`
+      };
+    }
+  }));
+
+  posts.sort((a,b) => {
+    if(a.date && b.date) return b.date - a.date;
+    if(a.date) return -1;
+    if(b.date) return 1;
+    return a.title.localeCompare(b.title);
+  });
+  return posts;
+}
+
+let ALL_POSTS = [];
+let CURRENT_FILTER = "all";
+
+function renderPosts(posts, silent){
+  ALL_POSTS = posts;
+  buildFilters(posts);
+  applyFilter(CURRENT_FILTER, !silent);
+  statTotal.textContent = posts.length;
+  statCats.textContent = new Set(posts.map(p => p.category)).size;
+}
+
+function buildFilters(posts){
+  const cats = Array.from(new Set(posts.map(p => p.category))).sort();
+  filterBar.querySelectorAll('.filter-pill:not([data-filter="all"])').forEach(el => el.remove());
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-pill';
+    btn.dataset.filter = cat;
+    btn.textContent = cat;
+    btn.addEventListener('click', () => setFilter(cat));
+    filterCount.insertAdjacentElement('beforebegin', btn);
+  });
+  filterBar.querySelector('[data-filter="all"]').onclick = () => setFilter("all");
+}
+
+function setFilter(filter){
+  CURRENT_FILTER = filter;
+  filterBar.querySelectorAll('.filter-pill').forEach(el => el.classList.toggle('active', el.dataset.filter === filter));
+  applyFilter(filter, true);
+}
+
+function applyFilter(filter, animate){
+  const posts = filter === "all" ? ALL_POSTS : ALL_POSTS.filter(p => p.category === filter);
+  filterCount.textContent = posts.length + (posts.length === 1 ? " guide" : " guides");
+
+  if(posts.length === 0){
+    grid.innerHTML = `<div class="state-box"><i class="fa-solid fa-feather-pointed"></i><h3>Nothing here yet</h3><p>No guides in this category yet — check back soon, or drop an HTML file into the blogger folder to publish one.</p></div>`;
+    return;
+  }
+
+  grid.innerHTML = posts.map(p => `
+    <a class="post-card" href="${p.url}">
+      <div class="post-thumb">
+        <img src="${p.image}" alt="${escapeHtml(p.title)}" loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
+        <span class="post-cat">${escapeHtml(p.category)}</span>
+      </div>
+      <div class="post-body">
+        ${p.date ? `<div class="post-date">${formatDate(p.date)}</div>` : ``}
+        <div class="post-title">${escapeHtml(p.title)}</div>
+        <div class="post-excerpt">${escapeHtml(p.desc)}</div>
+        <div class="post-link">Read The Guide <i class="fa-solid fa-arrow-right"></i></div>
+      </div>
+    </a>
+  `).join('');
+
+  if(animate){
+    const cards = grid.querySelectorAll('.post-card');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if(entry.isIntersecting){
+          setTimeout(() => entry.target.classList.add('in'), i * 60);
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    cards.forEach(c => io.observe(c));
+  }
+}
+
+function renderError(){
+  grid.innerHTML = `<div class="state-box"><i class="fa-solid fa-triangle-exclamation"></i><h3>Guides are taking a moment</h3><p>We couldn't reach the guide list just now. If you just added a post, GitHub Pages may still be deploying — refresh in a minute.</p></div>`;
+  statTotal.textContent = "—";
+  statCats.textContent = "—";
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str || "";
+  return div.innerHTML;
+}
+
+loadPosts();
+</script>
+
+</body>
+</html>
