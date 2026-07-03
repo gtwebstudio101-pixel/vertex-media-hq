@@ -6,27 +6,407 @@
 
 <!-- ============================================================
      REQUIRED META TAGS — blogger.html reads these automatically.
-     Fill these in for every new post, then just upload the file
-     into the /blogger folder. No other file needs editing.
+     Fill these in for every new post, then upload into /blogger.
      ============================================================ -->
-<title>Best Wireless Earbuds 2026 — Our Top Picks</title>
-<meta name="description" content="We tested a dozen wireless earbuds over three months. Here are the five that earned a permanent place in our daily rotation.">
+<title>Best Wireless Earbuds 2026 — Our Top Pick Tested</title>
+<meta name="description" content="We tested a dozen wireless earbuds over three months. Here's the one that earned a permanent place in our daily rotation — and why.">
 <meta name="post-category" content="Tech Essentials">
 <meta name="post-date" content="2026-07-03">
 <meta property="og:image" content="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=80">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-  body{font-family:'Inter',sans-serif;max-width:760px;margin:0 auto;padding:60px 24px 120px;color:#1a1814;line-height:1.8;}
-  h1{font-family:'Playfair Display',serif;font-size:2.4rem;margin-bottom:20px;}
-  img{width:100%;border-radius:2px;margin:30px 0;}
-  a.back{display:inline-block;margin-bottom:30px;font-size:.8rem;letter-spacing:1px;text-transform:uppercase;color:#a97e3f;}
+  :root{
+    --bg-dark:#0c0c0e; --bg-dark-elevated:#141418;
+    --bg-light:#faf7f0; --bg-light-elevated:#f2ede2; --bg-light-card:#ffffff;
+    --line-light:rgba(30,26,20,0.10); --line-dark:rgba(255,255,255,0.08);
+    --text-light:#1a1814; --text-light-dim:#5c5648; --text-light-muted:#8a8272;
+    --text-dark:#f0ede8; --text-dark-dim:#9a9488;
+    --gold:#c9974f; --gold-dim:#a97e3f; --gold-bright:#d4a853;
+    --green:#3f7d4f; --red:#a94f4f;
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', -apple-system, sans-serif;
+    --mono:'JetBrains Mono', monospace;
+    --ease:cubic-bezier(0.16,1,0.3,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--sans);color:var(--text-light);background:var(--bg-light);line-height:1.7;-webkit-font-smoothing:antialiased;}
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s var(--ease), transform .8s var(--ease);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+
+  /* top bar */
+  .topbar{
+    position:sticky;top:0;z-index:200;background:rgba(250,247,240,0.92);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-light);padding:16px 5vw;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .back-link{display:flex;align-items:center;gap:10px;font-size:.75rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-dim);font-weight:600;}
+  .topbar .brand{font-family:var(--serif);font-weight:700;font-size:1rem;color:var(--text-light);display:flex;align-items:center;gap:8px;}
+  .topbar .brand em{color:var(--gold);font-style:italic;}
+
+  /* sticky mini CTA - appears on scroll */
+  .mini-cta{
+    position:fixed;bottom:0;left:0;right:0;z-index:300;
+    background:var(--bg-dark);border-top:1px solid var(--line-dark);
+    padding:16px 5vw;display:flex;align-items:center;justify-content:space-between;gap:20px;
+    transform:translateY(110%);transition:transform .5s var(--ease);
+  }
+  .mini-cta.show{transform:translateY(0);}
+  .mini-cta .info{display:flex;align-items:center;gap:14px;}
+  .mini-cta img{width:44px;height:44px;object-fit:cover;border-radius:4px;}
+  .mini-cta .name{color:var(--text-dark);font-size:.85rem;font-weight:600;font-family:var(--serif);}
+  .mini-cta .price{color:var(--gold-bright);font-family:var(--mono);font-size:.78rem;}
+
+  /* buttons */
+  .btn-buy{
+    background:var(--gold);color:#1a1400;padding:14px 30px;font-size:.78rem;letter-spacing:1.6px;
+    text-transform:uppercase;font-weight:800;border:none;cursor:pointer;
+    display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden;
+    transition:transform .3s var(--ease), box-shadow .3s var(--ease);white-space:nowrap;
+  }
+  .btn-buy:hover{transform:translateY(-2px);box-shadow:0 14px 32px -10px rgba(201,151,79,.5);}
+  .btn-buy i{transition:transform .3s var(--ease);}
+  .btn-buy:hover i{transform:translateX(4px);}
+  .btn-buy.pulse{animation:pulseGlow 2.4s ease-in-out infinite;}
+  @keyframes pulseGlow{0%,100%{box-shadow:0 0 0 0 rgba(201,151,79,.35);}50%{box-shadow:0 0 0 14px rgba(201,151,79,0);}}
+
+  /* hero */
+  .post-hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--bg-dark);}
+  .post-hero img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.42) saturate(.85);transform:scale(1.08);animation:zoomBg 20s ease-in-out infinite alternate;}
+  @keyframes zoomBg{from{transform:scale(1.08);}to{transform:scale(1.18);}}
+  .post-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,12,14,.2) 0%,rgba(12,12,14,.55) 60%,rgba(12,12,14,.95) 100%);}
+  .hero-inner{position:relative;z-index:1;padding:0 5vw 64px;width:100%;color:var(--text-dark);}
+  .badges{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+  .badge{font-family:var(--mono);font-size:.65rem;letter-spacing:1.5px;text-transform:uppercase;padding:7px 14px;border:1px solid rgba(201,151,79,.4);color:var(--gold-bright);background:rgba(201,151,79,.08);}
+  .badge.pick{background:var(--gold);color:#1a1400;border-color:var(--gold);font-weight:800;}
+  .post-hero h1{font-family:var(--serif);font-weight:700;font-size:clamp(2.2rem,5vw,4rem);line-height:1.08;max-width:18ch;letter-spacing:-1px;margin-bottom:22px;}
+  .rating-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:30px;}
+  .stars{color:var(--gold-bright);letter-spacing:2px;font-size:1.1rem;}
+  .rating-num{font-family:var(--mono);font-size:.85rem;color:var(--text-dark-dim);}
+  .hero-actions{display:flex;gap:16px;flex-wrap:wrap;align-items:center;}
+  .price-tag{font-family:var(--serif);font-size:1.4rem;color:var(--gold-bright);font-weight:600;}
+  .price-tag span{font-size:.7rem;color:var(--text-dark-dim);font-family:var(--sans);text-decoration:line-through;margin-left:8px;}
+
+  /* content shell */
+  .post-wrap{max-width:900px;margin:0 auto;padding:80px 5vw 0;}
+  .post-wrap.wide{max-width:1100px;}
+  .lede{font-family:var(--serif);font-size:1.3rem;font-style:italic;color:var(--text-light-dim);line-height:1.7;margin-bottom:50px;border-left:3px solid var(--gold);padding-left:24px;}
+
+  /* quick verdict box */
+  .verdict{
+    background:var(--bg-light-card);border:1px solid var(--line-light);padding:38px 40px;margin-bottom:60px;
+    display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;
+    position:relative;overflow:hidden;
+  }
+  .verdict::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gold);}
+  .verdict h3{font-family:var(--serif);font-size:1.3rem;margin-bottom:10px;}
+  .verdict p{color:var(--text-light-dim);font-size:.95rem;font-weight:300;}
+  .verdict-score{text-align:center;}
+  .verdict-score .n{font-family:var(--serif);font-size:2.8rem;color:var(--gold-dim);font-weight:700;line-height:1;}
+  .verdict-score .l{font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-light-muted);font-family:var(--mono);margin-top:6px;}
+
+  h2.section-title{font-family:var(--serif);font-size:2rem;font-weight:600;margin:64px 0 26px;letter-spacing:-.4px;}
+  h3.sub-title{font-family:var(--serif);font-size:1.35rem;font-weight:600;margin:34px 0 14px;}
+  p.body-text{color:var(--text-light-dim);font-size:1.02rem;margin-bottom:20px;font-weight:300;}
+
+  /* inline image */
+  .inline-img{margin:40px 0;position:relative;overflow:hidden;}
+  .inline-img img{width:100%;transition:transform .8s var(--ease);}
+  .inline-img:hover img{transform:scale(1.03);}
+  .inline-img .cap{font-family:var(--mono);font-size:.7rem;color:var(--text-light-muted);margin-top:10px;letter-spacing:.5px;}
+
+  /* feature grid */
+  .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light);margin:40px 0 64px;}
+  .feature{background:var(--bg-light-card);padding:32px 26px;transition:background .3s var(--ease);}
+  .feature:hover{background:var(--bg-light-elevated);}
+  .feature i{font-size:1.4rem;color:var(--gold-dim);margin-bottom:16px;display:block;}
+  .feature h4{font-family:var(--serif);font-size:1.1rem;margin-bottom:8px;}
+  .feature p{font-size:.85rem;color:var(--text-light-dim);font-weight:300;}
+
+  /* pros cons */
+  .pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:40px 0 64px;}
+  .pc-box{padding:30px 30px 34px;border:1px solid var(--line-light);}
+  .pc-box.pros{border-top:3px solid var(--green);}
+  .pc-box.cons{border-top:3px solid var(--red);}
+  .pc-box h4{font-family:var(--serif);font-size:1.15rem;margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+  .pc-box.pros h4{color:var(--green);}
+  .pc-box.cons h4{color:var(--red);}
+  .pc-box ul{list-style:none;}
+  .pc-box li{display:flex;gap:10px;font-size:.9rem;color:var(--text-light-dim);margin-bottom:12px;font-weight:300;}
+  .pc-box.pros li i{color:var(--green);margin-top:3px;}
+  .pc-box.cons li i{color:var(--red);margin-top:3px;}
+
+  /* comparison table */
+  .compare-wrap{overflow-x:auto;margin:40px 0 64px;border:1px solid var(--line-light);}
+  table.compare{width:100%;border-collapse:collapse;min-width:640px;}
+  table.compare th{background:var(--bg-dark);color:var(--text-dark);font-family:var(--mono);font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;padding:16px 20px;text-align:left;font-weight:500;}
+  table.compare th.hl{color:var(--gold-bright);}
+  table.compare td{padding:16px 20px;border-top:1px solid var(--line-light);font-size:.88rem;color:var(--text-light-dim);}
+  table.compare tr.hl-row td{background:rgba(201,151,79,.06);color:var(--text-light);font-weight:500;}
+  table.compare td i.yes{color:var(--green);}
+  table.compare td i.no{color:var(--red);}
+
+  /* big CTA banner */
+  .cta-block{
+    margin:70px 0;padding:60px 50px;background:var(--bg-dark);color:var(--text-dark);
+    display:flex;align-items:center;justify-content:space-between;gap:40px;flex-wrap:wrap;
+    position:relative;overflow:hidden;
+  }
+  .cta-block::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 20%,rgba(201,151,79,.12),transparent 60%);}
+  .cta-block .txt{position:relative;z-index:1;max-width:440px;}
+  .cta-block h3{font-family:var(--serif);font-size:1.7rem;margin-bottom:10px;}
+  .cta-block p{color:var(--text-dark-dim);font-size:.92rem;font-weight:300;}
+  .cta-block .action{position:relative;z-index:1;text-align:right;}
+  .cta-block .price-tag{color:var(--gold-bright);}
+
+  /* rating bars */
+  .rating-bars{margin:40px 0 64px;}
+  .rbar-row{display:grid;grid-template-columns:140px 1fr 46px;align-items:center;gap:16px;margin-bottom:18px;}
+  .rbar-row .lbl{font-size:.82rem;color:var(--text-light-dim);font-family:var(--mono);}
+  .rbar-track{height:6px;background:var(--line-light);position:relative;overflow:hidden;}
+  .rbar-fill{position:absolute;inset:0;width:0%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-bright));transition:width 1.2s var(--ease);}
+  .rbar-row .val{font-family:var(--mono);font-size:.8rem;color:var(--gold-dim);text-align:right;}
+
+  /* faq */
+  .faq-item{border-top:1px solid var(--line-light);}
+  .faq-item:last-child{border-bottom:1px solid var(--line-light);}
+  .faq-q{padding:22px 0;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-family:var(--serif);font-size:1.05rem;font-weight:600;}
+  .faq-q i{transition:transform .3s var(--ease);color:var(--gold-dim);}
+  .faq-item.open .faq-q i{transform:rotate(45deg);}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .4s var(--ease);}
+  .faq-item.open .faq-a{max-height:200px;}
+  .faq-a p{padding-bottom:22px;color:var(--text-light-dim);font-size:.9rem;font-weight:300;}
+
+  /* final verdict CTA */
+  .final-cta{
+    margin:80px 0 0;padding:90px 5vw;text-align:center;background:var(--bg-light-elevated);
+    border-top:1px solid var(--line-light);
+  }
+  .final-cta h2{font-family:var(--serif);font-size:clamp(1.8rem,3.6vw,2.6rem);margin-bottom:16px;}
+  .final-cta p{color:var(--text-light-dim);max-width:50ch;margin:0 auto 34px;font-weight:300;}
+  .final-cta .btn-buy{padding:18px 44px;font-size:.85rem;}
+
+  footer.post-footer{background:var(--bg-dark);color:var(--text-dark-dim);padding:50px 5vw 100px;text-align:center;font-size:.8rem;font-family:var(--mono);}
+  footer.post-footer a{color:var(--gold);}
+
+  @media(max-width:760px){
+    .pc-grid{grid-template-columns:1fr;}
+    .feature-grid{grid-template-columns:1fr;}
+    .cta-block{flex-direction:column;text-align:center;}
+    .cta-block .action{text-align:center;}
+    .verdict{grid-template-columns:1fr;text-align:center;}
+    table.compare{min-width:560px;}
+  }
 </style>
 </head>
 <body>
-  <a class="back" href="../blogger.html">&larr; Back to The Journal</a>
-  <h1>Best Wireless Earbuds 2026 — Our Top Picks</h1>
-  <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1200&q=80" alt="Wireless earbuds">
-  <p>Replace this placeholder text with your full review. Everything above the body — title, description, category, date, and image — is what powers the card that appears automatically on blogger.html.</p>
+
+<div class="topbar">
+  <a href="../blogger.html" class="back-link"><i class="fa-solid fa-arrow-left"></i> The Journal</a>
+  <span class="brand">Vertex <em>Media</em> HQ</span>
+</div>
+
+<div class="mini-cta" id="miniCta">
+  <div class="info">
+    <img src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=100&q=80" alt="">
+    <div>
+      <div class="name">Aria Pro Wireless Earbuds</div>
+      <div class="price">$89.99</div>
+    </div>
+  </div>
+  <a href="#" class="btn-buy pulse">Check Price <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+
+<section class="post-hero">
+  <img class="bg" src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=1800&q=80" alt="Aria Pro Wireless Earbuds">
+  <div class="hero-inner">
+    <div class="badges">
+      <span class="badge pick"><i class="fa-solid fa-award"></i> Editor's Pick</span>
+      <span class="badge">Tech Essentials</span>
+      <span class="badge">Updated Jul 2026</span>
+    </div>
+    <h1>Aria Pro Wireless Earbuds — The One We Kept Reaching For</h1>
+    <div class="rating-row">
+      <span class="stars">★★★★★</span>
+      <span class="rating-num">4.8 / 5 — based on 6 weeks of daily use</span>
+    </div>
+    <div class="hero-actions">
+      <div class="price-tag">$89.99 <span>$129.99</span></div>
+      <a href="#" class="btn-buy pulse">Check Price on Amazon <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<div class="post-wrap">
+  <p class="lede">After three months and twelve pairs of wireless earbuds, one kept ending up back in our ears every single day. Here's exactly why — and who should buy something else instead.</p>
+
+  <div class="verdict reveal">
+    <div>
+      <h3>The Short Version</h3>
+      <p>Exceptional call clarity, genuinely comfortable for 6+ hour wear, and battery life that outlasts a full work day. The case feels premium in hand — this doesn't feel like a budget pick, even at this price.</p>
+    </div>
+    <div class="verdict-score">
+      <div class="n">9.2</div>
+      <div class="l">Vertex Score</div>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal">Why We Picked This One</h2>
+  <p class="body-text reveal">Most earbuds in this price range make a real trade-off somewhere — usually battery life or call quality. The Aria Pro is the first pair we tested that didn't force us to choose. Six hours of continuous playback, a case that adds three more full charges, and a microphone array that held up on windy street calls without turning to mush.</p>
+
+  <div class="inline-img reveal">
+    <img src="https://images.unsplash.com/photo-1590658006821-14eb61ac4304?auto=format&fit=crop&w=1200&q=80" alt="Earbuds case detail">
+    <div class="cap">The charging case in matte graphite — noticeably more solid than the price suggests.</div>
+  </div>
+
+  <div class="feature-grid reveal">
+    <div class="feature">
+      <i class="fa-solid fa-battery-full"></i>
+      <h4>32hr Total Battery</h4>
+      <p>6hrs per charge, 4 additional charges from the case.</p>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-microphone"></i>
+      <h4>Clear Call Quality</h4>
+      <p>4-mic array with active wind and noise reduction.</p>
+    </div>
+    <div class="feature">
+      <i class="fa-solid fa-droplet"></i>
+      <h4>IPX5 Water Resistant</h4>
+      <p>Sweat and splash resistant for workouts and commutes.</p>
+    </div>
+  </div>
+
+  <div class="rating-bars reveal">
+    <div class="rbar-row"><span class="lbl">Sound Quality</span><div class="rbar-track"><div class="rbar-fill" data-w="94"></div></div><span class="val">9.4</span></div>
+    <div class="rbar-row"><span class="lbl">Comfort</span><div class="rbar-track"><div class="rbar-fill" data-w="90"></div></div><span class="val">9.0</span></div>
+    <div class="rbar-row"><span class="lbl">Battery Life</span><div class="rbar-track"><div class="rbar-fill" data-w="96"></div></div><span class="val">9.6</span></div>
+    <div class="rbar-row"><span class="lbl">Value for Money</span><div class="rbar-track"><div class="rbar-fill" data-w="88"></div></div><span class="val">8.8</span></div>
+  </div>
+
+  <div class="cta-block reveal">
+    <div class="txt">
+      <h3>Currently 30% off</h3>
+      <p>Price fluctuates — we track it, and it's at one of its lowest points in the last 6 months right now.</p>
+    </div>
+    <div class="action">
+      <div class="price-tag">$89.99 <span>$129.99</span></div>
+      <a href="#" class="btn-buy" style="margin-top:14px;">Check Price on Amazon <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal">Pros &amp; Cons</h2>
+  <div class="pc-grid reveal">
+    <div class="pc-box pros">
+      <h4><i class="fa-solid fa-circle-check"></i> What We Liked</h4>
+      <ul>
+        <li><i class="fa-solid fa-plus"></i> All-day comfort, even for glasses wearers</li>
+        <li><i class="fa-solid fa-plus"></i> Case charges fast — 10 min for 2 hours playback</li>
+        <li><i class="fa-solid fa-plus"></i> Call quality genuinely rivals wired headsets</li>
+        <li><i class="fa-solid fa-plus"></i> Stable Bluetooth connection, no dropouts in testing</li>
+      </ul>
+    </div>
+    <div class="pc-box cons">
+      <h4><i class="fa-solid fa-circle-xmark"></i> Where It Falls Short</h4>
+      <ul>
+        <li><i class="fa-solid fa-minus"></i> No wireless charging on the case</li>
+        <li><i class="fa-solid fa-minus"></i> App is functional but not polished</li>
+        <li><i class="fa-solid fa-minus"></i> Bass is accurate rather than punchy</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section-title reveal">How It Compares</h2>
+  <div class="compare-wrap reveal">
+    <table class="compare">
+      <thead>
+        <tr><th class="hl">Aria Pro</th><th>Competitor A</th><th>Competitor B</th></tr>
+      </thead>
+      <tbody>
+        <tr class="hl-row"><td>$89.99</td><td>$109.99</td><td>$79.99</td></tr>
+        <tr><td>32hr total battery</td><td>24hr total battery</td><td>20hr total battery</td></tr>
+        <tr><td><i class="fa-solid fa-check yes"></i> IPX5 rated</td><td><i class="fa-solid fa-check yes"></i> IPX4 rated</td><td><i class="fa-solid fa-xmark no"></i> Not rated</td></tr>
+        <tr><td><i class="fa-solid fa-check yes"></i> 4-mic array</td><td><i class="fa-solid fa-xmark no"></i> 2-mic array</td><td><i class="fa-solid fa-xmark no"></i> 2-mic array</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="section-title reveal">Who Should Buy This</h2>
+  <p class="body-text reveal">If you're on calls most of the day, commute regularly, or just want earbuds that survive a full day without a midday top-up, this is the easiest recommendation we've made this quarter. If deep bass is your priority over clarity, it's worth trying a bass-forward alternative instead — we've noted one in the comparison above.</p>
+
+  <h2 class="section-title reveal">Frequently Asked Questions</h2>
+  <div class="faq reveal">
+    <div class="faq-item">
+      <div class="faq-q">Do these work well for the gym? <i class="fa-solid fa-plus"></i></div>
+      <div class="faq-a"><p>Yes — the IPX5 rating comfortably handles sweat, and the secure fit held through interval training in our tests.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is the microphone good enough for work calls? <i class="fa-solid fa-plus"></i></div>
+      <div class="faq-a"><p>This was the standout feature — the 4-mic array handled a windy outdoor call clearly, which is where most earbuds in this range struggle.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How does the battery hold up after a few months? <i class="fa-solid fa-plus"></i></div>
+      <div class="faq-a"><p>We're at week six of testing and haven't noticed measurable degradation yet — we'll update this guide if that changes.</p></div>
+    </div>
+  </div>
+</div>
+
+<div class="final-cta reveal">
+  <h2>Ready to make the switch?</h2>
+  <p>Currently 30% off and one of the easiest recommendations we've made all year.</p>
+  <a href="#" class="btn-buy pulse">Check Price on Amazon <i class="fa-solid fa-arrow-right"></i></a>
+</div>
+
+<footer class="post-footer">
+  As an Amazon Associate, Vertex Media HQ earns from qualifying purchases. This does not affect our editorial verdict. &nbsp;·&nbsp; <a href="../blogger.html">Back to The Journal</a>
+</footer>
+
+<script>
+  // scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // rating bar fill on view
+  const bars = document.querySelectorAll('.rbar-fill');
+  const barIo = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.style.width = entry.target.dataset.w + '%';
+        barIo.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  bars.forEach(b => barIo.observe(b));
+
+  // sticky mini cta after hero
+  const miniCta = document.getElementById('miniCta');
+  const hero = document.querySelector('.post-hero');
+  window.addEventListener('scroll', () => {
+    const heroBottom = hero.getBoundingClientRect().bottom;
+    miniCta.classList.toggle('show', heroBottom < 0);
+  });
+
+  // faq accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if(!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+
 </body>
 </html>
