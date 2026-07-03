@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vertex Media HQ — Curated Product Intelligence</title>
+<meta name="description" content="Vertex Media HQ delivers meticulously researched product reviews and buying guides across tech, home, and lifestyle categories.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+  :root{
+    /* Dark palette */
+    --bg-dark:#0c0c0e;
+    --bg-dark-elevated:#141418;
+    --bg-dark-card:#1a1a1f;
+    --bg-dark-hover:#22222a;
+    --line-dark:rgba(255,255,255,0.06);
+    --text-dark:#f0ede8;
+    --text-dark-dim:#9a9488;
+    --text-dark-muted:#6b6558;
+
+    /* Light palette */
+    --bg-light:#faf7f0;
+    --bg-light-elevated:#f2ede2;
+    --bg-light-card:#ffffff;
+    --bg-light-hover:#f5f0e6;
+    --line-light:rgba(30,26,20,0.10);
+    --text-light:#1a1814;
+    --text-light-dim:#5c5648;
+    --text-light-muted:#8a8272;
+
+    /* Shared accent */
+    --gold:#c9974f;
+    --gold-dim:#a97e3f;
+    --gold-bright:#d4a853;
+    --gold-glow:rgba(201,151,79,0.15);
+    --gold-glow-strong:rgba(201,151,79,0.25);
+
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', -apple-system, sans-serif;
+    --mono:'JetBrains Mono', monospace;
+    --ease-out:cubic-bezier(0.16,1,0.3,1);
+    --ease-smooth:cubic-bezier(0.4,0,0.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-dark);
+    color:var(--text-dark);
+    font-family:var(--sans);
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.6;
+  }
+  a{text-decoration:none;color:inherit;}
+  img{max-width:100%;display:block;}
+
+  ::selection{background:var(--gold);color:#0c0c0e;}
+
+  /* ---------- noise texture ---------- */
+  .noise{
+    position:fixed;inset:0;pointer-events:none;z-index:9999;
+    opacity:.02;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ---------- preloader ---------- */
+  #preloader{
+    position:fixed;inset:0;z-index:100000;
+    background:var(--bg-dark);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    transition:opacity .8s var(--ease-out), visibility .8s var(--ease-out);
+  }
+  #preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+  .pre-mark{
+    width:56px;height:56px;border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(45deg);margin-bottom:36px;
+    animation:preSpin 2s var(--ease-smooth) infinite;
+  }
+  .pre-mark span{
+    transform:rotate(-45deg);font-family:var(--sans);font-weight:800;
+    color:var(--gold);font-size:1.2rem;letter-spacing:1px;
+  }
+  @keyframes preSpin{
+    0%,100%{transform:rotate(45deg) scale(1);}
+    50%{transform:rotate(225deg) scale(1.05);}
+  }
+  .pre-word{
+    font-family:var(--serif);font-size:1.15rem;letter-spacing:6px;text-transform:uppercase;
+    color:var(--text-dark-dim);margin-bottom:28px;font-weight:500;
+  }
+  .pre-bar-wrap{width:180px;height:1px;background:var(--line-dark);position:relative;overflow:hidden;}
+  .pre-bar-wrap::after{
+    content:'';position:absolute;top:0;left:0;height:100%;width:var(--pct,0%);
+    background:var(--gold);transition:width .3s var(--ease-smooth);
+    box-shadow:0 0 12px var(--gold-glow);
+  }
+  .pre-pct{
+    margin-top:18px;font-size:.65rem;letter-spacing:3px;color:var(--text-dark-muted);
+    font-variant-numeric:tabular-nums;font-family:var(--mono);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:1000;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:24px 5vw;
+    background:transparent;
+    border-bottom:1px solid transparent;
+    transition:all .5s var(--ease-smooth);
+  }
+  header.scrolled{
+    background:rgba(12,12,14,0.92);
+    backdrop-filter:blur(20px) saturate(1.2);
+    -webkit-backdrop-filter:blur(20px) saturate(1.2);
+    border-bottom:1px solid var(--line-dark);
+    padding:14px 5vw;
+  }
+  .logo{
+    display:flex;align-items:center;gap:12px;
+    font-family:var(--serif);
+    font-size:1.4rem;
+    letter-spacing:.5px;
+    font-weight:600;
+  }
+  .logo .mark{
+    width:32px;height:32px;border:1.5px solid var(--gold);
+    display:flex;align-items:center;justify-content:center;
+    transform:rotate(45deg);
+    color:var(--gold);
+    font-family:var(--sans);
+    font-weight:800;
+    font-size:.8rem;
+  }
+  .logo .mark span{transform:rotate(-45deg);}
+  .logo .full{color:var(--text-dark);}
+  .logo .full em{font-style:italic;color:var(--gold);font-weight:500;}
+
+  nav.main-nav{display:flex;align-items:center;gap:40px;}
+  nav.main-nav a{
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--text-dark-dim);
+    position:relative;
+    padding:4px 0;
+    transition:color .4s var(--ease-smooth);
+    font-weight:500;
+  }
+  nav.main-nav a::after{
+    content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;
+    background:var(--gold);transition:width .4s var(--ease-out);
+  }
+  nav.main-nav a:hover{color:var(--text-dark);}
+  nav.main-nav a:hover::after{width:100%;}
+  nav.main-nav a.cta-nav{
+    color:var(--bg-dark);
+    background:var(--gold);
+    padding:11px 26px;
+    letter-spacing:1.6px;
+    font-weight:700;
+    transition:all .35s var(--ease-smooth);
+    border:1px solid var(--gold);
+  }
+  nav.main-nav a.cta-nav::after{display:none;}
+  nav.main-nav a.cta-nav:hover{
+    background:transparent;
+    color:var(--gold);
+    transform:translateY(-1px);
+    box-shadow:0 0 24px var(--gold-glow);
+  }
+
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1100;}
+  .burger span{width:26px;height:1px;background:var(--text-dark);transition:.3s;}
+
+  /* ---------- hero (DARK) ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;justify-content:center;
+    position:relative;
+    padding:0 5vw;
+    overflow:hidden;
+    background:var(--bg-dark);
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+  }
+  .hero-bg img{
+    width:100%;height:100%;object-fit:cover;
+    transform:scale(1.1);
+    animation:heroZoom 20s ease-in-out infinite alternate;
+    filter:brightness(0.35) saturate(0.8);
+  }
+  @keyframes heroZoom{from{transform:scale(1.1);}to{transform:scale(1.22);}}
+  .hero-bg::after{
+    content:'';position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(201,151,79,0.06) 0%, transparent 50%),
+      linear-gradient(180deg, rgba(12,12,14,0.7) 0%, rgba(12,12,14,0.3) 40%, rgba(12,12,14,0.85) 100%);
+  }
+  .hero > *:not(.hero-bg){position:relative;z-index:1;}
+
+  /* Grid overlay */
+  .hero::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+    pointer-events:none;z-index:2;
+  }
+
+  .eyebrow{
+    display:flex;align-items:center;gap:16px;
+    font-size:.7rem;letter-spacing:4px;text-transform:uppercase;
+    color:var(--gold);margin-bottom:32px;
+    opacity:0;animation:fadeUp 1s var(--ease-out) .3s forwards;
+    font-family:var(--mono);
+    font-weight:500;
+  }
+  .eyebrow .line{width:40px;height:1px;background:var(--gold);opacity:.6;}
+
+  h1.hero-title{
+    font-family:var(--serif);
+    font-weight:600;
+    font-size:clamp(3rem, 7vw, 6.5rem);
+    line-height:1.02;
+    letter-spacing:-1px;
+    max-width:14ch;
+  }
+  h1.hero-title .word{display:inline-block;overflow:hidden;vertical-align:top;}
+  h1.hero-title .word span{
+    display:inline-block;transform:translateY(110%);
+    animation:riseUp 1.2s var(--ease-out) forwards;
+  }
+  h1.hero-title em{
+    font-style:italic;color:var(--gold-bright);
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  @keyframes riseUp{to{transform:translateY(0);}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+  .hero-sub{
+    margin-top:36px;max-width:48ch;
+    font-size:1.05rem;line-height:1.85;color:var(--text-dark-dim);font-weight:300;
+    opacity:0;animation:fadeUp 1s var(--ease-out) 1s forwards;
+  }
+  .hero-actions{
+    margin-top:52px;display:flex;gap:24px;align-items:center;flex-wrap:wrap;
+    opacity:0;animation:fadeUp 1s var(--ease-out) 1.2s forwards;
+  }
+
+  .btn-primary{
+    background:var(--gold);color:var(--bg-dark);
+    padding:17px 38px;font-size:.78rem;letter-spacing:2.2px;text-transform:uppercase;
+    font-weight:800;position:relative;overflow:hidden;
+    transition:all .4s var(--ease-smooth);
+    border:1.5px solid var(--gold);
+  }
+  .btn-primary span{position:relative;z-index:2;}
+  .btn-primary::before{
+    content:'';position:absolute;inset:0;background:var(--bg-dark);
+    transform:translateX(-101%);transition:transform .5s var(--ease-out);
+  }
+  .btn-primary:hover::before{transform:translateX(0);}
+  .btn-primary:hover{color:var(--gold);transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(201,151,79,.25);}
+
+  .btn-ghost{
+    display:flex;align-items:center;gap:12px;
+    font-size:.78rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dark);
+    padding-bottom:6px;border-bottom:1px solid var(--line-dark);
+    transition:all .4s var(--ease-smooth);
+    font-weight:500;
+  }
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold-bright);gap:18px;}
+
+  .hero-meta{
+    position:absolute;right:5vw;bottom:70px;
+    display:flex;gap:60px;
+    opacity:0;animation:fadeUp 1s var(--ease-out) 1.4s forwards;
+  }
+  .hero-meta .stat{text-align:right;}
+  .hero-meta .stat .num{font-family:var(--serif);font-size:2.4rem;color:var(--gold-bright);font-weight:600;letter-spacing:-1px;}
+  .hero-meta .stat .lbl{font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dark-muted);margin-top:6px;font-family:var(--mono);}
+
+  .scroll-cue{
+    position:absolute;left:5vw;bottom:55px;
+    display:flex;align-items:center;gap:14px;
+    font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--text-dark-muted);
+    opacity:0;animation:fadeUp 1s var(--ease-out) 1.5s forwards;
+    font-family:var(--mono);
+  }
+  .scroll-cue .bar{width:1px;height:48px;background:var(--line-dark);position:relative;overflow:hidden;}
+  .scroll-cue .bar::after{
+    content:'';position:absolute;top:-40%;left:0;width:100%;height:40%;background:var(--gold);
+    animation:scrollDown 2s ease-in-out infinite;
+  }
+  @keyframes scrollDown{0%{top:-40%;}100%{top:100%;}}
+
+  /* ---------- section shell ---------- */
+  section{position:relative;padding:140px 5vw;}
+  .section-head{max-width:680px;margin-bottom:80px;}
+  .tag{
+    display:inline-flex;align-items:center;gap:14px;
+    font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px;
+    font-family:var(--mono);font-weight:500;
+  }
+  .tag .line{width:32px;height:1px;background:var(--gold);opacity:.5;}
+  .section-head h2{
+    font-family:var(--serif);font-weight:600;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:1.1;letter-spacing:-.5px;
+  }
+  .section-head p{margin-top:24px;color:var(--text-dark-dim);font-weight:300;line-height:1.85;font-size:1.05rem;}
+
+  /* ---------- LIGHT section variant ---------- */
+  .section-light{
+    background:var(--bg-light);
+    color:var(--text-light);
+  }
+  .section-light .section-head p{color:var(--text-light-dim);}
+  .section-light .tag{color:var(--gold-dim);}
+  .section-light .tag .line{background:var(--gold-dim);}
+
+  /* ---------- about / pillars (LIGHT) ---------- */
+  .pillars{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--line-light);border:1px solid var(--line-light);
+  }
+  .pillar{
+    background:var(--bg-light-card);padding:0 0 50px;
+    transition:all .5s var(--ease-smooth);
+    position:relative;overflow:hidden;
+  }
+  .pillar::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    opacity:0;transition:opacity .5s var(--ease-smooth);
+  }
+  .pillar:hover::before{opacity:1;}
+  .pillar-img{position:relative;width:100%;aspect-ratio:16/10;overflow:hidden;margin-bottom:40px;}
+  .pillar-img img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease-smooth);filter:brightness(0.85) saturate(0.85);}
+  .pillar:hover .pillar-img img{transform:scale(1.08);filter:brightness(0.95) saturate(0.95);}
+  .pillar-body{padding:0 44px;}
+  .pillar:hover{background:var(--bg-light-hover);}
+  .pillar .pnum{font-family:var(--mono);font-size:.85rem;color:var(--gold-dim);letter-spacing:3px;margin-bottom:28px;display:block;opacity:.7;}
+  .pillar i{font-size:1.4rem;color:var(--gold-dim);margin-bottom:24px;display:block;opacity:.8;}
+  .pillar h3{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:16px;letter-spacing:-.3px;color:var(--text-light);}
+  .pillar p{color:var(--text-light-dim);font-size:.95rem;line-height:1.8;font-weight:300;}
+
+  /* ---------- categories marquee (DARK) ---------- */
+  .marquee-wrap{
+    border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+    padding:40px 0;overflow:hidden;background:var(--bg-dark-elevated);
+  }
+  .marquee-track{
+    display:flex;gap:80px;white-space:nowrap;width:max-content;
+    animation:scrollX 40s linear infinite;
+  }
+  .marquee-track span{
+    font-family:var(--serif);font-size:1.8rem;color:var(--text-dark-muted);
+    display:flex;align-items:center;gap:80px;font-style:italic;
+    font-weight:500;
+  }
+  .marquee-track span i{color:var(--gold);font-size:.5rem;font-style:normal;opacity:.5;}
+  @keyframes scrollX{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  /* ---------- categories grid (LIGHT) ---------- */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .cat-card{
+    aspect-ratio:3/4;position:relative;overflow:hidden;
+    border:1px solid var(--line-light);
+    display:flex;flex-direction:column;justify-content:flex-end;padding:34px 28px;
+    background:var(--bg-light-card);
+    transition:border-color .4s var(--ease-smooth), transform .4s var(--ease-smooth);
+  }
+  .cat-card img{
+    position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    transition:transform .8s var(--ease-smooth), filter .8s var(--ease-smooth);
+    filter:brightness(0.65) saturate(0.7);
+  }
+  .cat-card:hover img{transform:scale(1.1);filter:brightness(0.75) saturate(0.85);}
+  .cat-card::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(26,24,20,0) 20%, rgba(26,24,20,0.88) 100%);
+    z-index:1;
+  }
+  .cat-card:hover{border-color:rgba(201,151,79,.3);transform:translateY(-4px);}
+  .cat-card i{
+    position:absolute;top:28px;left:28px;font-size:1.1rem;color:var(--gold);z-index:2;
+    background:rgba(201,151,79,0.1);width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .4s var(--ease-smooth);
+    border:1px solid rgba(201,151,79,0.2);
+  }
+  .cat-card:hover i{transform:translateY(-6px) scale(1.1);background:rgba(201,151,79,0.15);border-color:rgba(201,151,79,0.4);}
+  .cat-card h4{font-family:var(--serif);font-size:1.6rem;font-weight:600;margin-bottom:10px;position:relative;z-index:2;color:#fffaf0;letter-spacing:-.3px;}
+  .cat-card p{font-size:.82rem;color:#d4cfc4;position:relative;z-index:2;font-weight:300;}
+  .cat-card .count{
+    position:absolute;bottom:34px;right:28px;font-size:.68rem;letter-spacing:1.5px;color:var(--gold);z-index:2;
+    font-family:var(--mono);opacity:.8;
+  }
+
+  /* ---------- editorial band (DARK) ---------- */
+  .editorial{
+    display:grid;grid-template-columns:1fr 1fr;gap:0;
+    border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+  }
+  .editorial-img{position:relative;overflow:hidden;min-height:520px;}
+  .editorial-img img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:transform .9s var(--ease-smooth);filter:brightness(0.55);}
+  .editorial-img:hover img{transform:scale(1.06);}
+  .editorial-img::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg, rgba(12,12,14,0.5) 0%, transparent 60%);
+  }
+  .editorial-copy{
+    display:flex;flex-direction:column;justify-content:center;
+    padding:80px 6vw;background:var(--bg-dark-elevated);
+  }
+  .editorial-copy h3{font-family:var(--serif);font-size:2.6rem;font-weight:600;margin-bottom:28px;line-height:1.15;letter-spacing:-.5px;color:var(--text-dark);}
+  .editorial-copy p{color:var(--text-dark-dim);font-weight:300;line-height:1.9;margin-bottom:20px;font-size:1.05rem;}
+  @media(max-width:900px){
+    .editorial{grid-template-columns:1fr;}
+    .editorial-img{min-height:340px;}
+  }
+
+  /* ---------- process (LIGHT) ---------- */
+  .process{display:flex;flex-direction:column;}
+  .p-row{
+    display:grid;grid-template-columns:80px 1fr 50px;align-items:center;
+    padding:42px 0;border-top:1px solid var(--line-light);gap:40px;
+    transition:all .4s var(--ease-smooth);cursor:pointer;
+    position:relative;
+  }
+  .p-row::before{
+    content:'';position:absolute;left:0;top:0;bottom:0;width:2px;
+    background:var(--gold-dim);opacity:0;transition:opacity .4s var(--ease-smooth);
+  }
+  .p-row:hover::before{opacity:1;}
+  .p-row:last-child{border-bottom:1px solid var(--line-light);}
+  .p-row:hover{padding-left:20px;background:rgba(201,151,79,0.02);}
+  .p-row .pn{font-family:var(--mono);font-size:1.8rem;color:var(--gold-dim);opacity:.4;font-weight:500;}
+  .p-row h4{font-family:var(--serif);font-size:1.6rem;margin-bottom:10px;letter-spacing:-.3px;color:var(--text-light);}
+  .p-row p{color:var(--text-light-dim);font-size:.95rem;max-width:58ch;font-weight:300;line-height:1.8;}
+  .p-row i{color:var(--gold-dim);font-size:1.1rem;opacity:0;transition:all .4s var(--ease-out);transform:translateX(-10px);}
+  .p-row:hover i{opacity:1;transform:translateX(0);}
+
+  /* ---------- trust strip (DARK) ---------- */
+  .trust{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+  }
+  .trust .t-item{
+    padding:56px 36px;text-align:center;border-left:1px solid var(--line-dark);
+    transition:background .4s var(--ease-smooth);
+  }
+  .trust .t-item:first-child{border-left:none;}
+  .trust .t-item:hover{background:rgba(201,151,79,0.03);}
+  .trust .t-item .num{font-family:var(--serif);font-size:3rem;color:var(--gold-bright);font-weight:600;letter-spacing:-2px;}
+  .trust .t-item .lbl{margin-top:12px;font-size:.68rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-dark-muted);font-family:var(--mono);}
+
+  /* ---------- CTA banner (LIGHT) ---------- */
+  .cta-banner{
+    text-align:center;padding:180px 5vw;position:relative;
+    background:
+      radial-gradient(ellipse 50% 60% at 50% 0%, rgba(201,151,79,0.06) 0%, transparent 60%),
+      var(--bg-light-elevated);
+    border-top:1px solid var(--line-light);border-bottom:1px solid var(--line-light);
+    overflow:hidden;
+    color:var(--text-light);
+  }
+  .cta-banner::before{
+    content:'';position:absolute;inset:0;
+    background-image:
+      linear-gradient(rgba(30,26,20,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,26,20,0.015) 1px, transparent 1px);
+    background-size:100px 100px;
+    mask-image:radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent);
+    pointer-events:none;
+  }
+  .cta-banner .tag{justify-content:center;color:var(--gold-dim);}
+  .cta-banner .tag .line{background:var(--gold-dim);}
+  .cta-banner h2{
+    font-family:var(--serif);font-weight:600;font-size:clamp(2.4rem,5vw,4.5rem);
+    max-width:16ch;margin:0 auto 32px;line-height:1.08;letter-spacing:-1px;
+    color:var(--text-light);
+  }
+  .cta-banner p{color:var(--text-light-dim);max-width:52ch;margin:0 auto 52px;font-weight:300;line-height:1.85;font-size:1.05rem;}
+  .cta-group{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;}
+
+  .btn-primary-light{
+    background:var(--gold-dim);color:#fffaf0;
+    padding:17px 38px;font-size:.78rem;letter-spacing:2.2px;text-transform:uppercase;
+    font-weight:800;position:relative;overflow:hidden;
+    transition:all .4s var(--ease-smooth);
+    border:1.5px solid var(--gold-dim);
+  }
+  .btn-primary-light span{position:relative;z-index:2;}
+  .btn-primary-light::before{
+    content:'';position:absolute;inset:0;background:var(--bg-light);
+    transform:translateX(-101%);transition:transform .5s var(--ease-out);
+  }
+  .btn-primary-light:hover::before{transform:translateX(0);}
+  .btn-primary-light:hover{color:var(--gold-dim);transform:translateY(-2px);box-shadow:0 16px 40px -8px rgba(201,151,79,.2);}
+
+  /* ---------- footer (DARK) ---------- */
+  footer{padding:100px 5vw 50px;background:var(--bg-dark);position:relative;}
+  footer::before{
+    content:'';position:absolute;top:0;left:5vw;right:5vw;height:1px;background:var(--line-dark);
+  }
+  .foot-top{
+    display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:70px;
+    padding-bottom:70px;border-bottom:1px solid var(--line-dark);
+  }
+  .foot-brand .logo{margin-bottom:24px;}
+  .foot-brand p{color:var(--text-dark-dim);font-size:.95rem;line-height:1.85;max-width:36ch;font-weight:300;}
+  .foot-social{display:flex;gap:14px;margin-top:30px;}
+  .foot-social a{
+    width:42px;height:42px;border:1px solid var(--line-dark);display:flex;align-items:center;justify-content:center;
+    color:var(--text-dark-dim);transition:all .4s var(--ease-smooth);
+    border-radius:50%;
+  }
+  .foot-social a:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px);background:rgba(201,151,79,0.05);}
+  .foot-col h5{font-size:.68rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:26px;font-family:var(--mono);font-weight:500;}
+  .foot-col a{
+    display:block;color:var(--text-dark-dim);font-size:.92rem;margin-bottom:16px;font-weight:300;transition:all .3s var(--ease-smooth);
+  }
+  .foot-col a:hover{color:var(--text-dark);padding-left:8px;}
+  .foot-bottom{
+    display:flex;justify-content:space-between;align-items:center;padding-top:40px;flex-wrap:wrap;gap:18px;
+  }
+  .foot-bottom p{font-size:.75rem;color:var(--text-dark-muted);font-weight:300;font-family:var(--mono);}
+  .foot-bottom .disclosure{font-size:.72rem;color:var(--text-dark-muted);max-width:60ch;line-height:1.7;margin-top:12px;font-weight:300;}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:980px){
+    .pillars{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:repeat(2,1fr);}
+    .trust{grid-template-columns:repeat(2,1fr);}
+    .trust .t-item:nth-child(3){border-left:none;}
+    .foot-top{grid-template-columns:1fr 1fr;row-gap:50px;}
+    .hero-meta{display:none;}
+    section{padding:100px 5vw;}
+  }
+  @media(max-width:720px){
+    nav.main-nav{
+      position:fixed;top:0;right:0;height:100vh;width:78vw;max-width:340px;
+      background:rgba(12,12,14,0.98);backdrop-filter:blur(24px);
+      flex-direction:column;align-items:flex-start;justify-content:center;gap:32px;
+      padding:60px 40px;transform:translateX(100%);transition:transform .5s var(--ease-out);
+      border-left:1px solid var(--line-dark);
+    }
+    nav.main-nav.open{transform:translateX(0);}
+    nav.main-nav a{font-size:.95rem;}
+    .burger{display:flex;}
+    .cat-grid{grid-template-columns:1fr;}
+    .p-row{grid-template-columns:50px 1fr;}
+    .p-row i{display:none;}
+    .hero-title{font-size:clamp(2.4rem, 10vw, 4rem)!important;}
+    .editorial-copy{padding:50px 6vw;}
+    .editorial-copy h3{font-size:1.8rem;}
+    .cta-banner{padding:100px 5vw;}
+    .foot-top{grid-template-columns:1fr;}
+  }
+</style>
+<base target="_blank">
+</head>
+<body>
+
+<div id="preloader">
+  <div class="pre-mark"><span>V</span></div>
+  <div class="pre-word">Vertex Media HQ</div>
+  <div class="pre-bar-wrap" id="preBar"></div>
+  <div class="pre-pct" id="prePct">0%</div>
+</div>
+
+<div class="noise"></div>
+
+<header id="siteHeader">
+  <a href="index.html" class="logo">
+    <span class="mark"><span>V</span></span>
+    <span class="full">Vertex <em>Media</em> HQ</span>
+  </a>
+
+  <nav class="main-nav" id="mainNav">
+    <a href="index.html">Home</a>
+    <a href="#pillars">About</a>
+    <a href="#categories">Categories</a>
+    <a href="#process">Our Process</a>
+    <a href="blogger.html" class="cta-nav">Read The Blog <i class="fa-solid fa-arrow-right" style="margin-left:8px;"></i></a>
+  </nav>
+
+  <div class="burger" id="burger">
+    <span></span><span></span><span></span>
+  </div>
+</header>
+
+<!-- DARK: Hero -->
+<section class="hero">
+  <div class="hero-bg">
+    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=80" alt="Curated luxury desk still life">
+  </div>
+  <div class="eyebrow"><span class="line"></span> Editorial Product Intelligence</div>
+  <h1 class="hero-title">
+    <span class="word"><span>Discernment,</span></span><br>
+    <span class="word"><span>delivered</span></span>
+    <span class="word"><span><em>daily.</em></span></span>
+  </h1>
+  <p class="hero-sub">
+    Vertex Media HQ is an independent research desk built to separate genuinely
+    exceptional products from the noise — through rigorous, unhurried, editorially
+    led review.
+  </p>
+  <div class="hero-actions">
+    <a href="blogger.html" class="btn-primary"><span>Enter The Journal</span></a>
+    <a href="#pillars" class="btn-ghost">Our Standard <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+
+  <div class="scroll-cue"><div class="bar"></div> Scroll</div>
+
+  <div class="hero-meta">
+    <div class="stat"><div class="num">120+</div><div class="lbl">Products Vetted</div></div>
+    <div class="stat"><div class="num">8</div><div class="lbl">Core Categories</div></div>
+    <div class="stat"><div class="num">100%</div><div class="lbl">Independent</div></div>
+  </div>
+</section>
+
+<!-- LIGHT: Pillars -->
+<section id="pillars" class="section-light">
+  <div class="section-head">
+    <div class="tag"><span class="line"></span> The Standard</div>
+    <h2>Three principles govern everything we publish.</h2>
+    <p>No sponsored placements, no filler roundups. Every recommendation on Vertex Media HQ passes through the same disciplined editorial lens.</p>
+  </div>
+
+  <div class="pillars">
+    <div class="pillar">
+      <div class="pillar-img"><img src="https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=900&q=80" alt="Product testing desk"></div>
+      <div class="pillar-body">
+      <span class="pnum">01</span>
+      <i class="fa-solid fa-magnifying-glass-chart"></i>
+      <h3>Rigorous Vetting</h3>
+      <p>Every product is assessed against build quality, real-world durability, and genuine value — not marketing claims.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-img"><img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=900&q=80" alt="Writing and editorial notes"></div>
+      <div class="pillar-body">
+      <span class="pnum">02</span>
+      <i class="fa-solid fa-feather-pointed"></i>
+      <h3>Editorial Integrity</h3>
+      <p>Our writing is unhurried and specific. We tell you exactly who a product is for, and who should walk away.</p>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-img"><img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=900&q=80" alt="Workspace revision and notes"></div>
+      <div class="pillar-body">
+      <span class="pnum">03</span>
+      <i class="fa-solid fa-arrows-rotate"></i>
+      <h3>Living Coverage</h3>
+      <p>Guides are revisited as products, prices, and categories evolve — never published once and forgotten.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DARK: Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>
+      Home &amp; Living <i class="fa-solid fa-diamond"></i>
+      Tech Essentials <i class="fa-solid fa-diamond"></i>
+      Outdoor &amp; Fitness <i class="fa-solid fa-diamond"></i>
+      Kitchen &amp; Dining <i class="fa-solid fa-diamond"></i>
+      Travel Gear <i class="fa-solid fa-diamond"></i>
+      Wellness <i class="fa-solid fa-diamond"></i>
+      Pet Care <i class="fa-solid fa-diamond"></i>
+      Workspace <i class="fa-solid fa-diamond"></i>
+    </span>
+    <span aria-hidden="true">
+      Home &amp; Living <i class="fa-solid fa-diamond"></i>
+      Tech Essentials <i class="fa-solid fa-diamond"></i>
+      Outdoor &amp; Fitness <i class="fa-solid fa-diamond"></i>
+      Kitchen &amp; Dining <i class="fa-solid fa-diamond"></i>
+      Travel Gear <i class="fa-solid fa-diamond"></i>
+      Wellness <i class="fa-solid fa-diamond"></i>
+      Pet Care <i class="fa-solid fa-diamond"></i>
+      Workspace <i class="fa-solid fa-diamond"></i>
+    </span>
+  </div>
+</div>
+
+<!-- LIGHT: Categories -->
+<section id="categories" class="section-light">
+  <div class="section-head">
+    <div class="tag"><span class="line"></span> Explore</div>
+    <h2>Coverage across the categories that matter.</h2>
+    <p>Each category is curated by depth, not volume — a small number of products, examined thoroughly.</p>
+  </div>
+
+  <div class="cat-grid">
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80" alt="Home and living interior">
+      <i class="fa-solid fa-house-chimney"></i>
+      <h4>Home &amp; Living</h4>
+      <p>Considered upgrades for everyday spaces.</p>
+      <span class="count">24 Guides</span>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Tech essentials devices">
+      <i class="fa-solid fa-microchip"></i>
+      <h4>Tech Essentials</h4>
+      <p>Devices worth the investment.</p>
+      <span class="count">31 Guides</span>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&w=800&q=80" alt="Outdoor and fitness gear">
+      <i class="fa-solid fa-person-hiking"></i>
+      <h4>Outdoor &amp; Fitness</h4>
+      <p>Built for real use, tested outdoors.</p>
+      <span class="count">18 Guides</span>
+    </div>
+    <div class="cat-card">
+      <img src="https://images.unsplash.com/photo-1556909212-d5b604d0c90d?auto=format&fit=crop&w=800&q=80" alt="Kitchen and dining tools">
+      <i class="fa-solid fa-mug-hot"></i>
+      <h4>Kitchen &amp; Dining</h4>
+      <p>Tools that earn a permanent place.</p>
+      <span class="count">27 Guides</span>
+    </div>
+  </div>
+</section>
+
+<!-- DARK: Editorial -->
+<div class="editorial">
+  <div class="editorial-img">
+    <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80" alt="Editor reviewing products on location">
+  </div>
+  <div class="editorial-copy">
+    <div class="tag"><span class="line"></span> Behind The Desk</div>
+    <h3>Written by people who actually use the products.</h3>
+    <p>Every guide begins with hands-on time — not a spec sheet copied from a manufacturer's page. If a product doesn't hold up under daily use, we say so plainly.</p>
+    <p>That's the difference between an affiliate blog and an editorial desk. We're building the latter.</p>
+  </div>
+</div>
+
+<!-- LIGHT: Process -->
+<section id="process" class="section-light">
+  <div class="section-head">
+    <div class="tag"><span class="line"></span> Methodology</div>
+    <h2>How a recommendation earns its place.</h2>
+  </div>
+
+  <div class="process">
+    <div class="p-row">
+      <span class="pn">01</span>
+      <div><h4>Category Research</h4><p>We start broad — mapping every credible option within a category before narrowing down.</p></div>
+      <i class="fa-solid fa-arrow-right"></i>
+    </div>
+    <div class="p-row">
+      <span class="pn">02</span>
+      <div><h4>Comparative Analysis</h4><p>Shortlisted products are compared directly against specification, pricing, and long-term value.</p></div>
+      <i class="fa-solid fa-arrow-right"></i>
+    </div>
+    <div class="p-row">
+      <span class="pn">03</span>
+      <div><h4>Editorial Review</h4><p>Findings are written into a clear, honest verdict — including who each product is not right for.</p></div>
+      <i class="fa-solid fa-arrow-right"></i>
+    </div>
+    <div class="p-row">
+      <span class="pn">04</span>
+      <div><h4>Ongoing Revision</h4><p>Guides are re-checked on a schedule and updated as products change or better options emerge.</p></div>
+      <i class="fa-solid fa-arrow-right"></i>
+    </div>
+  </div>
+</section>
+
+<!-- DARK: Trust -->
+<div class="trust">
+  <div class="t-item"><div class="num">2026</div><div class="lbl">Est. Editorial Desk</div></div>
+  <div class="t-item"><div class="num">0</div><div class="lbl">Paid Placements</div></div>
+  <div class="t-item"><div class="num">8</div><div class="lbl">Category Editors</div></div>
+  <div class="t-item"><div class="num">Weekly</div><div class="lbl">New Guides</div></div>
+</div>
+
+<!-- LIGHT: CTA -->
+<div class="cta-banner">
+  <div class="tag"><span class="line"></span> Start Reading</div>
+  <h2>The full journal lives right here.</h2>
+  <p>Every review, buying guide, and comparison we publish — organised, searchable, and updated continuously.</p>
+  <div class="cta-group">
+    <a href="blogger.html" class="btn-primary-light"><span>Visit The Journal</span></a>
+  </div>
+</div>
+
+<!-- DARK: Footer -->
+<footer>
+  <div class="foot-top">
+    <div class="foot-brand">
+      <a href="index.html" class="logo">
+        <span class="mark"><span>V</span></span>
+        <span class="full">Vertex <em>Media</em> HQ</span>
+      </a>
+      <p>An independent editorial desk dedicated to careful, unsponsored product research and review.</p>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+        <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h5>Explore</h5>
+      <a href="index.html">Home</a>
+      <a href="blogger.html">The Journal</a>
+      <a href="#categories">Categories</a>
+      <a href="#process">Methodology</a>
+    </div>
+    <div class="foot-col">
+      <h5>Categories</h5>
+      <a href="blogger.html">Home &amp; Living</a>
+      <a href="blogger.html">Tech Essentials</a>
+      <a href="blogger.html">Outdoor &amp; Fitness</a>
+      <a href="blogger.html">Kitchen &amp; Dining</a>
+    </div>
+    <div class="foot-col">
+      <h5>Information</h5>
+      <a href="#">About Us</a>
+      <a href="#">Contact</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Affiliate Disclosure</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>&copy; <span id="year"></span> Vertex Media HQ. All rights reserved.</p>
+  </div>
+  <p class="disclosure">As an Amazon Associate, Vertex Media HQ earns from qualifying purchases. Product recommendations are independently researched; commissions do not influence our editorial verdicts.</p>
+</footer>
+
+<script>
+  // preloader progress simulation
+  (function(){
+    const bar = document.getElementById('preBar');
+    const pct = document.getElementById('prePct');
+    const pre = document.getElementById('preloader');
+    let n = 0;
+    const timer = setInterval(() => {
+      n += Math.random() * 16;
+      if (n >= 100) n = 100;
+      bar.style.setProperty('--pct', n.toFixed(0) + '%');
+      pct.textContent = n.toFixed(0) + '%';
+      if (n >= 100) clearInterval(timer);
+    }, 180);
+
+    window.addEventListener('load', () => {
+      n = 100;
+      bar.style.setProperty('--pct', '100%');
+      pct.textContent = '100%';
+      setTimeout(() => {
+        pre.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, 400);
+    });
+
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => {
+      pre.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 4500);
+  })();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // header scroll state
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // mobile nav toggle
+  const burger = document.getElementById('burger');
+  const mainNav = document.getElementById('mainNav');
+  burger.addEventListener('click', () => {
+    mainNav.classList.toggle('open');
+    burger.classList.toggle('active');
+  });
+  mainNav.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => mainNav.classList.remove('open'));
+  });
+
+  // pause marquee on hover
+  const marquee = document.getElementById('marqueeTrack');
+  marquee.addEventListener('mouseenter', () => marquee.style.animationPlayState = 'paused');
+  marquee.addEventListener('mouseleave', () => marquee.style.animationPlayState = 'running');
+</script>
+
+</body>
+</html>
